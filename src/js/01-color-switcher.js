@@ -10,8 +10,14 @@ mainBackgroundColor.innerHTML = `<p><a href="index.html">Go back</a></p>
 const btnStart = document.querySelector('[data-start]');
 const btnStop = document.querySelector('[data-stop]');
 
-btnStart.setAttribute('style', 'width: 100px; height: 50px; font-size: 24px');
-btnStop.setAttribute('style', 'width: 100px; height: 50px;font-size: 24px');
+btnStart.setAttribute(
+  'style',
+  'width: 100px; height: 50px; font-size: 24px; text-transform: uppercase'
+);
+btnStop.setAttribute(
+  'style',
+  'width: 100px; height: 50px;font-size: 24px; text-transform: uppercase'
+);
 
 let intervalId = null;
 
@@ -21,7 +27,6 @@ function makesStart() {
   intervalId = setInterval(() => {
     let randomColor = getRandomHexColor();
     mainBackgroundColor.style.backgroundColor = randomColor;
-
     console.log(getRandomHexColor());
   }, 1000);
 }
