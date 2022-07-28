@@ -7,10 +7,11 @@ let amountInput = 0;
 
 function readingInput(event) {
   event.preventDefault();
-  let formElements = event.currentTarget.elements;
+  formElements = event.currentTarget.elements;
   delayInput = formElements.delay.value;
   stepInput = formElements.step.value;
   amountInput = formElements.amount.value;
+  CallCreatePromise(delayInput, stepInput, amountInput);
 }
 
 form.addEventListener('submit', readingInput);
@@ -26,106 +27,18 @@ function createPromise(position, delay) {
   });
 }
 
-sumbmitBtn.addEventListener('click', CallCreatePromise);
-
 function CallCreatePromise(delayInput, stepInput, amountInput) {
-  createPromise(stepInput, delayInput)
-    .then(({ resolve, reject }) => {
-      console.log(`✅ Fulfilled promise ${resolve} in ${reject}ms`);
-    })
-    .catch(({ resolve, reject }) => {
-      console.log(`❌ Rejected promise ${resolve} in ${reject}ms`);
-    });
+  let total = 0;
+  for (let i = 0; i < amountInput; i++) {
+    total += i;
+    setTimeout(() => {
+      createPromise(total, delayInput)
+        .then(({ resolve, reject }) => {
+          console.log(`✅ Fulfilled promise ${total} in ${delayInput}ms`);
+        })
+        .catch(({ resolve, reject }) => {
+          console.log(`❌ Rejected promise ${total} in ${delayInput}ms`);
+        });
+    }, delayInput);
+  }
 }
-
-// import { Notify } from 'notiflix/build/notiflix-notify-aio';
-
-// const firstDelayInput = document.querySelector('[name=delay]');
-// const stepInput = document.querySelector('[name=step]');
-// const amountInput = document.querySelector('[name=amount]');
-// const formEl = document.querySelector('form');
-// const sumbmitBtn = document.querySelector('[type=submit]');
-
-// let firstDelayValue = 0;
-// let stepValue = 0;
-// let amountValue = 0;
-// // let isActiveInterval = false;
-
-// formEl.addEventListener('input', onFormInput);
-
-// function onFormInput(e) {
-//   firstDelayValue = firstDelayInput.value;
-//   stepValue = stepInput.value;
-//   amountValue = amountInput.value;
-// }
-
-// sumbmitBtn.addEventListener('click', onSubmitClick);
-
-// function onSubmitClick(e) {
-//   e.preventDefault();
-
-//   //   if (isActiveInterval) {
-//   //       return
-//   // };
-//   if (amountValue == 0 || amountValue < 0) {
-//     Notify.failure('Amount must be more then 0 and input must not be blank');
-//     return;
-//   }
-//   callCreatePromises(firstDelayValue, stepValue, amountValue);
-// }
-
-// function createPromise(position, delay) {
-//   const shouldResolve = Math.random() > 0.3;
-
-//   return new Promise((resolve, reject) => {
-//     if (shouldResolve) {
-//       // resolve(`Fulfilled promise ${position} in ${Date.now() - delay}ms`)
-//       resolve(`Fulfilled promise ${position} in ${delay}ms`);
-//     } else {
-//       // reject(`Rejected promise ${position} in ${Date.now() - delay}ms`)
-//       reject(`Rejected promise ${position} in ${delay}ms`);
-//     }
-//   });
-// }
-
-// function callCreatePromises(firstDelay, step, amount) {
-//   let counter = 1;
-//   // const timeBefore = Date.now()
-
-//   let timing = Number(firstDelay);
-
-//   setTimeout(() => {
-//     // isActiveInterval = true;
-
-//     createPromise(counter, firstDelay)
-//       .then(resolve => {
-//         Notify.success(resolve);
-//         console.log(resolve);
-//       })
-//       .catch(error => {
-//         Notify.failure(error);
-//         console.log(error);
-//       });
-
-//     if (amount >= 2) {
-//       const timerId2 = setInterval(() => {
-//         counter += 1;
-//         timing += Number(step);
-
-//         if (counter > amount) {
-//           clearInterval(timerId2);
-//           return;
-//         }
-//         // createPromise(counter, timeBefore)
-//         createPromise(counter, timing)
-//           .then(resolve => {
-//             Notify.success(resolve);
-//             console.log(resolve);
-//           })
-//           .catch(error => {
-//             Notify.failure(error);
-//             console.log(error);
-//           });
-//       }, step);
-//     }
-//   }, firstDelay);
