@@ -1,9 +1,9 @@
 const form = document.querySelector('.form');
 const sumbmitBtn = document.querySelector('[type=submit]');
 
-let delayInput = 0;
-let stepInput = 0;
-let amountInput = 0;
+let delayInput = 2000;
+let stepInput = 1000;
+let amountInput = 3;
 
 function readingInput(event) {
   event.preventDefault();
@@ -14,31 +14,31 @@ function readingInput(event) {
   CallCreatePromise(delayInput, stepInput, amountInput);
 }
 
+CallCreatePromise(delayInput, stepInput, amountInput);
+
 form.addEventListener('submit', readingInput);
 
 function createPromise(position, delay) {
   const shouldResolve = Math.random() > 0.3;
   return new Promise((resolve, reject) => {
     if (shouldResolve) {
-      resolve(`✅ Fulfilled promise ${position} in ${delay}ms-`);
+      resolve();
     } else {
-      reject(`❌ Rejected promise ${position} in ${delay}ms-`);
+      reject();
     }
   });
 }
 
 function CallCreatePromise(delayInput, stepInput, amountInput) {
-  let total = 0;
-  for (let i = 0; i < amountInput; i++) {
+  let total = 1;
+  for (let i = 0; i < 5; i += 1) {
     total += i;
-    setTimeout(() => {
-      createPromise(total, delayInput)
-        .then(({ resolve, reject }) => {
-          console.log(`✅ Fulfilled promise ${total} in ${delayInput}ms`);
-        })
-        .catch(({ resolve, reject }) => {
-          console.log(`❌ Rejected promise ${total} in ${delayInput}ms`);
-        });
-    }, delayInput);
+    createPromise(total, delayInput)
+      .then(reject => {
+        console.log(`✅ Fulfilled promise ${total} in ${delayInput}ms`);
+      })
+      .catch(reject => {
+        console.log(`❌ Rejected promise ${total} in ${delayInput}ms`);
+      });
   }
 }
