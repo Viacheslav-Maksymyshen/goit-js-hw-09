@@ -1,149 +1,131 @@
-function createPromise(position, delay) {
-  const shouldResolve = Math.random() > 0.3;
-  if (shouldResolve) {
-    // Fulfill
-  } else {
-    // Reject
-  }
+const form = document.querySelector('.form');
+const sumbmitBtn = document.querySelector('[type=submit]');
+
+let delayInput = 0;
+let stepInput = 0;
+let amountInput = 0;
+
+function readingInput(event) {
+  event.preventDefault();
+  let formElements = event.currentTarget.elements;
+  delayInput = formElements.delay.value;
+  stepInput = formElements.step.value;
+  amountInput = formElements.amount.value;
 }
 
-// Skip to content
-// Search or jump to…
-// Pull requests
-// Issues
-// Marketplace
-// Explore
+form.addEventListener('submit', readingInput);
 
-// @Viacheslav-Maksymyshen
-// alexvile
-// /
-// goit-js-hw-09
-// Public
-// Code
-// Issues
-// Pull requests
-// Actions
-// Projects
-// Wiki
-// Security
-// Insights
-// goit-js-hw-09/src/js/02-timer.js /
-// @alexvile
-// alexvile solving 3 task
-// Latest commit 4243ad7 on 2 Jun
-//  History
-//  1 contributor
-// 122 lines (90 sloc)  2.98 KB
+function createPromise(position, delay) {
+  const shouldResolve = Math.random() > 0.3;
+  return new Promise((resolve, reject) => {
+    if (shouldResolve) {
+      resolve(`✅ Fulfilled promise ${position} in ${delay}ms-`);
+    } else {
+      reject(`❌ Rejected promise ${position} in ${delay}ms-`);
+    }
+  });
+}
 
-// // // Описан в документации
-// import flatpickr from "flatpickr";
-// // Дополнительный импорт стилей
-// import "flatpickr/dist/flatpickr.min.css";
+sumbmitBtn.addEventListener('click', CallCreatePromise);
+
+function CallCreatePromise(delayInput, stepInput, amountInput) {
+  createPromise(stepInput, delayInput)
+    .then(({ resolve, reject }) => {
+      console.log(`✅ Fulfilled promise ${resolve} in ${reject}ms`);
+    })
+    .catch(({ resolve, reject }) => {
+      console.log(`❌ Rejected promise ${resolve} in ${reject}ms`);
+    });
+}
 
 // import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
-// const startBtn = document.querySelector("[data-start]");
-// const daysEl = document.querySelector('[data-days]');
-// const hoursEl = document.querySelector('[data-hours]');
-// const minutesEl = document.querySelector('[data-minutes]');
-// const secondsEl = document.querySelector('[data-seconds]');
+// const firstDelayInput = document.querySelector('[name=delay]');
+// const stepInput = document.querySelector('[name=step]');
+// const amountInput = document.querySelector('[name=amount]');
+// const formEl = document.querySelector('form');
+// const sumbmitBtn = document.querySelector('[type=submit]');
 
-// startBtn.addEventListener('click', stbtnclick);
-// startBtn.setAttribute('disabled', true);
+// let firstDelayValue = 0;
+// let stepValue = 0;
+// let amountValue = 0;
+// // let isActiveInterval = false;
 
-// let futureDate = 0;
-// let currentTime = Date.now();
-// let timerInterval = null;
-// let difference = 0;
-// let isActiveTimer = false;
-// let btnActive = false;
+// formEl.addEventListener('input', onFormInput);
 
-// function check() {
-//     currentTime = Date.now();
+// function onFormInput(e) {
+//   firstDelayValue = firstDelayInput.value;
+//   stepValue = stepInput.value;
+//   amountValue = amountInput.value;
+// }
 
-//     if(futureDate < currentTime) {
-//         Notify.failure('Please choose a date in the future');
-//         startBtn.setAttribute('disabled', true);
-//         btnActive = false;
-//     } else{
-//         startBtn.removeAttribute('disabled');
-//         btnActive = true;
+// sumbmitBtn.addEventListener('click', onSubmitClick);
+
+// function onSubmitClick(e) {
+//   e.preventDefault();
+
+//   //   if (isActiveInterval) {
+//   //       return
+//   // };
+//   if (amountValue == 0 || amountValue < 0) {
+//     Notify.failure('Amount must be more then 0 and input must not be blank');
+//     return;
+//   }
+//   callCreatePromises(firstDelayValue, stepValue, amountValue);
+// }
+
+// function createPromise(position, delay) {
+//   const shouldResolve = Math.random() > 0.3;
+
+//   return new Promise((resolve, reject) => {
+//     if (shouldResolve) {
+//       // resolve(`Fulfilled promise ${position} in ${Date.now() - delay}ms`)
+//       resolve(`Fulfilled promise ${position} in ${delay}ms`);
+//     } else {
+//       // reject(`Rejected promise ${position} in ${Date.now() - delay}ms`)
+//       reject(`Rejected promise ${position} in ${delay}ms`);
 //     }
-
+//   });
 // }
 
-// const options = {
-//     enableTime: true,
-//     time_24hr: true,
-//     defaultDate: new Date(),
-//     minuteIncrement: 1,
-//     // dateFormat: "Y-m-d",
-//     // minDate: currentTime,
+// function callCreatePromises(firstDelay, step, amount) {
+//   let counter = 1;
+//   // const timeBefore = Date.now()
 
-//     onClose(selectedDates) {
+//   let timing = Number(firstDelay);
 
-//         if(isActiveTimer == true) {
-//             Notify.failure('Timer is now running');
-//             btnActive = false;
-//             return
+//   setTimeout(() => {
+//     // isActiveInterval = true;
+
+//     createPromise(counter, firstDelay)
+//       .then(resolve => {
+//         Notify.success(resolve);
+//         console.log(resolve);
+//       })
+//       .catch(error => {
+//         Notify.failure(error);
+//         console.log(error);
+//       });
+
+//     if (amount >= 2) {
+//       const timerId2 = setInterval(() => {
+//         counter += 1;
+//         timing += Number(step);
+
+//         if (counter > amount) {
+//           clearInterval(timerId2);
+//           return;
 //         }
-
-//         futureDate = selectedDates[0];
-//         check();
-//     },
-//   };
-
-// flatpickr("#datetime-picker", options)
-
-// function watchStart() {
-//     timerInterval = setInterval(() => {
-//         currentTime  = Date.now();
-
-//         difference = futureDate - currentTime;
-//         // console.log(difference);
-//         // console.log(convertMs(difference));
-
-//         daysEl.innerHTML = convertMs(difference).days
-//         hoursEl.innerHTML = convertMs(difference).hours
-//         minutesEl.innerHTML = convertMs(difference).minutes
-//         secondsEl.innerHTML = convertMs(difference).seconds
-
-//         if(difference < 1000) {
-//             isActiveTimer = false;
-//             clearInterval(timerInterval);
-//         }
-//         }, 1000)
-// }
-
-// function stbtnclick() {
-//     check();
-
-//     if(btnActive==true && isActiveTimer==false){
-//         watchStart();
-//         isActiveTimer = true;
-//         Notify.success('Timer has been started');
+//         // createPromise(counter, timeBefore)
+//         createPromise(counter, timing)
+//           .then(resolve => {
+//             Notify.success(resolve);
+//             console.log(resolve);
+//           })
+//           .catch(error => {
+//             Notify.failure(error);
+//             console.log(error);
+//           });
+//       }, step);
 //     }
-// }
-
-// function convertMs(ms) {
-//   // Number of milliseconds per unit of time
-//   const second = 1000;
-//   const minute = second * 60;
-//   const hour = minute * 60;
-//   const day = hour * 24;
-
-//   // Remaining days
-//   const days = addLeadingZero(Math.floor(ms / day));
-//   // Remaining hours
-//   const hours = addLeadingZero(Math.floor((ms % day) / hour));
-//   // Remaining minutes
-//   const minutes = addLeadingZero(Math.floor(((ms % day) % hour) / minute));
-//   // Remaining seconds
-//   const seconds = addLeadingZero(Math.floor((((ms % day) % hour) % minute) / second));
-
-//   return { days, hours, minutes, seconds };
-// }
-
-// function addLeadingZero(value) {
-//     return String(value).padStart(2, '0');
-// }
+//   }, firstDelay);
