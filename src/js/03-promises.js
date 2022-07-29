@@ -15,7 +15,7 @@ function readingInput(event) {
   }
 
   if (stepInput < 0 || delayInput < 0) {
-    Notiflix.Notify.failure('❌ Value must be more then 0');
+    Notiflix.Notify.failure('❌ The value must be positive.');
     return;
   }
 
