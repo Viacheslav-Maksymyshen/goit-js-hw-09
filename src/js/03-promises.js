@@ -1,20 +1,20 @@
-const form = document.querySelector('.form');
-const sumbmitBtn = document.querySelector('[type=submit]');
+import Notiflix from 'notiflix';
 
-let delayInput = 2000;
-let stepInput = 1000;
-let amountInput = 3;
+const form = document.querySelector('.form');
 
 function readingInput(event) {
   event.preventDefault();
-  formElements = event.currentTarget.elements;
-  delayInput = formElements.delay.value;
-  stepInput = formElements.step.value;
-  amountInput = formElements.amount.value;
+  let formElements = event.currentTarget.elements;
+  let delayInput = Number(formElements.delay.value);
+  let stepInput = Number(formElements.step.value);
+  let amountInput = Number(formElements.amount.value);
+
+  if (amountInput == 0 || amountInput < 0) {
+    Notiflix.Notify.failure('❌ Amount must be more then 0');
+    return;
+  }
   CallCreatePromise(delayInput, stepInput, amountInput);
 }
-
-CallCreatePromise(delayInput, stepInput, amountInput);
 
 form.addEventListener('submit', readingInput);
 
@@ -22,23 +22,50 @@ function createPromise(position, delay) {
   const shouldResolve = Math.random() > 0.3;
   return new Promise((resolve, reject) => {
     if (shouldResolve) {
-      resolve();
+      resolve(`✅ Fulfilled promise ${position} in ${delay}ms`);
     } else {
-      reject();
+      reject(`❌ Rejected promise ${position} in ${delay}ms`);
     }
   });
 }
 
 function CallCreatePromise(delayInput, stepInput, amountInput) {
-  let total = 1;
-  for (let i = 0; i < 5; i += 1) {
-    total += i;
-    createPromise(total, delayInput)
-      .then(reject => {
-        console.log(`✅ Fulfilled promise ${total} in ${delayInput}ms`);
-      })
-      .catch(reject => {
-        console.log(`❌ Rejected promise ${total} in ${delayInput}ms`);
-      });
+  let total = 0;
+  if (total === 0 && amountInput > 0) {
+    setTimeout(() => {
+      let caunter = (total += 1);
+      createPromise(total, delayInput)
+        .then(resolve => {
+          console.log(resolve);
+          Notiflix.Notify.success(resolve);
+        })
+        .catch(reject => {
+          console.log(reject);
+          Notiflix.Notify.failure(reject);
+        });
+      SecondCreatePromise(caunter);
+    }, delayInput);
+  }
+  function SecondCreatePromise(caunter) {
+    console.log(caunter);
+    console.log(amountInput);
+    if (caunter >= 1 && amountInput >= 2) {
+      const timerid = setInterval(() => {
+        delayInput += stepInput;
+        total += 1;
+        createPromise(total, delayInput)
+          .then(resolve => {
+            console.log(resolve);
+            Notiflix.Notify.success(resolve);
+          })
+          .catch(reject => {
+            console.log(reject);
+            Notiflix.Notify.failure(reject);
+          });
+        if (total >= amountInput) {
+          clearInterval(timerid);
+        }
+      }, stepInput);
+    }
   }
 }
