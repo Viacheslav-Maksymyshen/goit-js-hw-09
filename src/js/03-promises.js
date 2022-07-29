@@ -9,7 +9,7 @@ function readingInput(event) {
   let stepInput = Number(formElements.step.value);
   let amountInput = Number(formElements.amount.value);
 
-  if (amountInput == 0 || amountInput < 0 || stepInput < 0 || delayInput < 0) {
+  if (amountInput == 0 || amountInput < 0) {
     Notiflix.Notify.failure('❌ Amount must be more then 0');
     return;
   }
