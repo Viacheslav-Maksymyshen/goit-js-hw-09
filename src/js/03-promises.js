@@ -9,10 +9,16 @@ function readingInput(event) {
   let stepInput = Number(formElements.step.value);
   let amountInput = Number(formElements.amount.value);
 
-  if (amountInput == 0 || amountInput < 0) {
+  if (amountInput == 0 || amountInput < 0 || stepInput < 0 || delayInput < 0) {
     Notiflix.Notify.failure('❌ Amount must be more then 0');
     return;
   }
+
+  if (stepInput < 0 || delayInput < 0) {
+    Notiflix.Notify.failure('❌ Value must be more then 0');
+    return;
+  }
+
   CallCreatePromise(delayInput, stepInput, amountInput);
 }
 
@@ -47,8 +53,6 @@ function CallCreatePromise(delayInput, stepInput, amountInput) {
     }, delayInput);
   }
   function SecondCreatePromise(caunter) {
-    console.log(caunter);
-    console.log(amountInput);
     if (caunter >= 1 && amountInput >= 2) {
       const timerid = setInterval(() => {
         delayInput += stepInput;
