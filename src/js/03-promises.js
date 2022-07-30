@@ -19,7 +19,7 @@ function readingInput(event) {
     return;
   }
 
-  CallCreatePromise(delayInput, stepInput, amountInput);
+  callCreatePromise(delayInput, stepInput, amountInput);
 }
 
 form.addEventListener('submit', readingInput);
@@ -35,7 +35,7 @@ function createPromise(position, delay) {
   });
 }
 
-function CallCreatePromise(delayInput, stepInput, amountInput) {
+function callCreatePromise(delayInput, stepInput, amountInput) {
   let total = 0;
   if (total === 0 && amountInput > 0) {
     setTimeout(() => {
@@ -49,10 +49,10 @@ function CallCreatePromise(delayInput, stepInput, amountInput) {
           console.log(reject);
           Notiflix.Notify.failure(reject);
         });
-      SecondCreatePromise(caunter);
+      secondCreatePromise(caunter);
     }, delayInput);
   }
-  function SecondCreatePromise(caunter) {
+  function secondCreatePromise(caunter) {
     if (caunter >= 1 && amountInput >= 2) {
       const timerid = setInterval(() => {
         delayInput += stepInput;
